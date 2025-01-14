@@ -23,29 +23,6 @@ We will focus on the following Cart operations:
 
 ---
 
-### 2. Refactor `Add to Cart`
-#### **Express-Based Logic**
-```javascript
-app.post("/cart/add", async (req, res) => {
-    const { bookId, quantity, price } = req.body;
-    const customerId = req.headers["x-customer-id"];
-
-    try {
-        await pool.query(`
-            INSERT INTO cart (customer_id, book_id, quantity, price)
-            VALUES ($1, $2, $3, $4)
-            ON CONFLICT (customer_id, book_id)
-            DO UPDATE SET quantity = cart.quantity + $3;
-        `, [customerId, bookId, quantity, price]);
-
-        res.status(200).send("Item added to cart");
-    } catch (error) {
-        console.error("Error adding to cart:", error);
-        res.status(500).send("Failed to add item to cart");
-    }
-});
-```
-
 #### **Knative Refactor**
 ##### Create the Function Logic
 ```javascript
