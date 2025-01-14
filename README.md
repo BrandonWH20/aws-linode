@@ -100,8 +100,7 @@ CMD ["node", "index.js"]
 ##### Deploy to Knative
 1. **Build and Push Docker Image:**
    ```bash
-   docker build -t gcr.io/<your-project-id>/cart-add .
-   docker push gcr.io/<your-project-id>/cart-add
+   docker buildx build --platform linux/amd64,linux/arm64 -t bholcombe/bookstore-api:latest --push .
    ```
 
 2. **Knative Service Configuration:**
