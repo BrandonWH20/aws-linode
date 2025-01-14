@@ -154,29 +154,6 @@ module.exports = async (req, res) => {
 
 ---
 
-### 5. Refactor `Update Item Quantity`
-```javascript
-module.exports = async (req, res) => {
-    const { bookId, quantity } = req.body;
-    const customerId = req.headers["x-customer-id"];
-
-    try {
-        await pool.query(`
-            UPDATE cart
-            SET quantity = $3
-            WHERE customer_id = $1 AND book_id = $2;
-        `, [customerId, bookId, quantity]);
-
-        res.status(200).send("Item quantity updated");
-    } catch (error) {
-        console.error("Error updating item quantity:", error);
-        res.status(500).send("Failed to update quantity");
-    }
-};
-```
-
----
-
 ## Additional Considerations
 1. **Database Connectivity:**
    - Use a connection pool for efficient database interactions.
@@ -196,5 +173,5 @@ module.exports = async (req, res) => {
 ---
 
 ## Conclusion
-By refactoring Cart functions into standalone Knative services, you enable better scalability, manageability, and integration with PostgreSQL. This architecture leverages the strengths of serverless computing while maintaining robust database interactions.
+By refactoring Cart functions into standalone Knative services, we enable better scalability, manageability, and integration with PostgreSQL. 
 
